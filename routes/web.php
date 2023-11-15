@@ -28,6 +28,12 @@ Route::middleware([
 ])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'viewDash'])->name('dashboard');
     Route::get('/category', [CategoryController::class, 'viewCategory'])->name('category');
+
+    Route::get('/searchCategory', [CategoryController::class, 'searchCategoryPage'])->name('searchCategoryPage');
+    Route::get('/category', [CategoryController::class, 'viewCategory'])->name('category');
     Route::get('/addCategory', [CategoryController::class, 'addCategoryPage'])->name('addCategory');
     Route::post('/addCategoryPost', [CategoryController::class, 'addCategory'])->name('addCategory.post');
+    Route::get('/deleteCategory', [CategoryController::class, 'deleteCategory'])->name('deleteCategory');
+    Route::get('/editCategory', [CategoryController::class, 'editCategory'])->name('editCategory');
+    Route::post('/editCategoryPost', [CategoryController::class, 'editCategoryPost'])->name('editCategory.post');
 });
