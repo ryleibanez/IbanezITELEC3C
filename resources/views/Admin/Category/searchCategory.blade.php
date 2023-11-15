@@ -7,7 +7,7 @@
             Welcome <br>
             <div class="span">
                 <span>
-                    Total Categories: {{ count($categories) }}
+                    Total Categories: {{ count($cat) }}
                 </span>
             </div>
         </h2>
@@ -50,7 +50,7 @@
             </thead>
             <tbody>
                 <div id="category">
-                @foreach ($categories as $items)
+                @foreach ($cat as $items)
                     <tr>
                         <th scope="row">{{ $items->id }}</th>
                         <td>{{ $items->category_name }}</td>
@@ -70,7 +70,7 @@
     </div>
 
     <div class="col-md-9 mx-auto">
-        {{ $categories->links() }}
+        {{ $cat->links() }}
     </div>
 
 
