@@ -14,13 +14,18 @@
             </div>
         @endif
 
-        <form method="POST" id="myForm">
+        <form method="POST" id="myForm" enctype="multipart/form-data">
             @csrf
 
             <div>
                 <x-label for="email" value="{{ __('Category Name') }}" />
                 <x-input id="email" class="block mt-1 w-full" type="text" name="category_name" required autofocus
                     autocomplete="category" />
+<br>
+                    <div class="mb-3">
+                        <label for="formFile" class="form-label">Upload Logo:</label>
+                        <input class="form-control" name="logo" type="file" id="formFile" required>
+                      </div>
             </div>
 
 

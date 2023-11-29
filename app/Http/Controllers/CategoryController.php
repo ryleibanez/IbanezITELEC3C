@@ -12,19 +12,49 @@ class CategoryController extends Controller
 {
     //
 
-    public function searchCategoryPage(Request $request){
+    public function searchCategoryPage(Request $request)
+    {
         $search = $request->query('search');
 
-        $cat = Category::where('category_name','like','%'.$search.'%')->orderBy('created_at','desc')->paginate(5);
+        $cat = Category::where('category_name', 'like', '%' . $search . '%')->orderBy('created_at', 'desc')->paginate(5);
 
-        if($cat){
-            return view ('Admin.Category.searchCategory', compact('cat','search'));
+        if ($cat) {
+            return view('Admin.Category.searchCategory', compact('cat', 'search'));
         }
     }
 
-    public function viewCategoryItems(Request $request){
-        $page = $request->query('page');
 
+    public function viewUploadLogo(Request $request)
+    {
+
+
+        $id = $request->query('id');
+
+        return view('Admin.Category.uploadImage', compact('id'));
+    }
+
+
+    public function uploadImagePost(Request $request)
+    {
+
+
+        $id = $request->input('id');
+        $db = Category::where('id', $id)->first();
+
+        $file = $request->file('logo');
+        $fileName = time() . '_' . $file->getClientOriginalName();
+        $uploadPath = public_path('uploads');
+        $file->move($uploadPath, $fileName);
+        $filePath = "uploads/" . $fileName;
+        $db->logo = $filePath;
+        $db->save();
+
+        return response()->json(['status' => 'success']);
+    }
+
+    public function viewCategoryItems(Request $request)
+    {
+        $page = $request->query('page');
     }
     public function viewCategory()
     {
@@ -40,9 +70,18 @@ class CategoryController extends Controller
 
     public function addCategory(Request $request)
     {
-        
+
+        $file = $request->file('logo');
+
+        $path = 'uploads/' . time() . '_' . $file->getClientOriginalName();
+        $uploadPath = public_path('uploads');
+        $fileName = time() . '_' . $file->getClientOriginalName();
+        $file->move($uploadPath, $fileName);
+
+
         $data['user_id'] = auth()->user()->id;
         $data['category_name'] = $request->input('category_name');
+        $data['logo'] = $path;
 
         $validator = Validator::make($request->all(), [
 
@@ -59,11 +98,11 @@ class CategoryController extends Controller
 
         $insert = Category::create($data);
         if ($insert) {
-            session()->flash('addCat','success');
+            session()->flash('addCat', 'success');
 
             return response()->json(['status' => 'success']);
-        }else{
-            return response()->json(['status'=>'failed']);
+        } else {
+            return response()->json(['status' => 'failed']);
         }
     }
 
@@ -97,7 +136,7 @@ class CategoryController extends Controller
 
         $validator = Validator::make($request->all(), [
 
-          'category_name' => 'required|unique:categories,category_name,NULL,id,deleted_at,NULL',
+            'category_name' => 'required|unique:categories,category_name,NULL,id,deleted_at,NULL',
 
         ]);
 
@@ -106,17 +145,17 @@ class CategoryController extends Controller
             return response()->json([
                 'status' => $validator->errors(),
             ], 422);
-        }else {
+        } else {
 
-        $db = Category::where('id', $id)->first();
+            $db = Category::where('id', $id)->first();
 
             if ($db) {
                 $db->category_name = $request->input('category_name');
                 $db->save();
-                session()->flash('edit','success');
-                return response()->json(['status'=>'success']);
-            }else{
-                return response()->json(['status'=>'failed']);
+                session()->flash('edit', 'success');
+                return response()->json(['status' => 'success']);
+            } else {
+                return response()->json(['status' => 'failed']);
             }
         }
     }
