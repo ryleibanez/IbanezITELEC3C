@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\RecoverController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -35,5 +36,12 @@ Route::middleware([
     Route::post('/addCategoryPost', [CategoryController::class, 'addCategory'])->name('addCategory.post');
     Route::get('/deleteCategory', [CategoryController::class, 'deleteCategory'])->name('deleteCategory');
     Route::get('/editCategory', [CategoryController::class, 'editCategory'])->name('editCategory');
+    Route::get('/RecoverData', [RecoverController::class, 'viewRecoverData'])->name('recoverdata');
+    Route::get('/uploadLogo', [CategoryController::class, 'viewUploadLogo'])->name('uploadlogo');
+    Route::post('/uploadImagePost', [CategoryController::class, 'uploadImagePost'])->name('uploadImagePost');
     Route::post('/editCategoryPost', [CategoryController::class, 'editCategoryPost'])->name('editCategory.post');
+    Route::get('/RecoverDataAction', [RecoverController::class, 'recoverData'])->name('recoverDataAction');
+    
+
+    
 });

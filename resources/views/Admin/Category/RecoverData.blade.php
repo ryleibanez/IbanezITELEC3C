@@ -7,7 +7,7 @@
             Welcome <br>
             <div class="span">
                 <span>
-                    Total Categories: {{ count($categories) }}
+                    Total Deleted Data: {{ count($db) }}
                 </span>
             </div>
         </h2>
@@ -22,8 +22,7 @@
 
 
     <div class="col-md-9 mx-auto" style="margin-top:1%;">
-        <button type="button" class="btn btn-outline-primary float-right"
-            onclick="window.location.href='{{ route('addCategory') }}'">Add Category</button>
+        
 
             
             
@@ -48,28 +47,24 @@
                     <th scope="col">Category Name</th>
                     <th scope="col">User ID</th>
                     <th scope="col">Created_at</th>
-                    <th scope="col">Updated_at</th>
+                    <th scope="col">Deleted_at</th>
                     <th scope="col">Actions</th>
 
                 </tr>
             </thead>
             <tbody>
                 <div id="category">
-                    @foreach ($categories as $items)
+                    @foreach ($db as $items)
                         <tr>
                             <th scope="row">{{ $items->id }}</th>
                             <td><img src="{{ $items->logo }}" width="100px" height="100px"></td>
                             <td>{{ $items->category_name }}</td>
                             <td>{{ $items->user_id }}</td>
                             <td>{{ $items->created_at->diffForHumans() }}</td>
-                            <td>{{ $items->updated_at->diffForHumans() }}</td>
+                            <td>{{ $items->deleted_at->diffForHumans() }}</td>
                             <td> <button type="button" class="btn btn-outline-success"
-                                    onclick="window.location.href='/editCategory?id={{ $items->id }}'">Edit</button>
-                                <button type="button" class="btn btn-outline-danger"
-                                    onclick="window.location.href='/deleteCategory?id={{ $items->id }}'">Delete</button>
-
-                                    <button type="button" class="btn btn-outline-primary"
-                                    onclick="window.location.href='/uploadLogo?id={{ $items->id }}'">Upload<br> Logo</button>
+                                    onclick="window.location.href='/RecoverDataAction?id={{ $items->id }}'">Recover</button>
+                              
                             </td>
 
                         </tr>
@@ -80,11 +75,10 @@
     </div>
     
     <div class="col-md-9 mx-auto">
-        {{ $categories->links() }}
+        {{ $db->links() }}
     </div>
 
-   
-
+  
 </x-app-layout>
 <script type="module">
     var varCounter = 0;
